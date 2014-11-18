@@ -15,9 +15,53 @@ int point;               //Game Score
 int expoInit;            //Explode Init Size
 int countBulletFrame;    //Bullet Time Counter
 int bulletNum;           //Bullet Order Number
+int ox=50;
+int oy=50;
+int spacing;
+int num=53;
+int numInRow=12;
+int spacingA=40;
+int spacingB=50;
+
 
 /*--------Put Variables Here---------*/
-
+void printText(){
+   if (status == GAME_WIN) {
+      textSize(60);
+      text("WINNER", 200, 300); 
+      fill(95, 194, 226);
+      textSize(20);
+      text("score = "+point, 230, 340);
+      fill(95, 194, 226);   
+   }
+   
+   if (status == GAME_LOSE) {
+      textSize(60);
+      text("BOOM", 200, 240); 
+      fill(95, 194, 226);
+      textSize(20);
+      text("You are dead!!", 230, 280);
+      fill(95, 194, 226);      
+   }
+   
+   if (status == GAME_START) {
+      textSize(60);
+      text("GALIXIAN", 200, 240); 
+      fill(95, 194, 226);
+      textSize(20);
+      text("Press ENTER to Start", 230, 280);
+      fill(95, 194, 226);       
+   }
+   
+   if (status == GAME_PAUSE) {
+      textSize(60);
+      text("PAUSE", 200, 240); 
+      fill(95, 194, 226);
+      textSize(20);
+      text("Press ENTER to Resume", 230, 280);
+      fill(95, 194, 226);       
+   }
+}
 
 void setup() {
 
@@ -40,17 +84,20 @@ void setup() {
 void draw() {
   background(50, 50, 50);
   noStroke();
-
+ 
+  
   switch(status) {
 
   case GAME_START:
     /*---------Print Text-------------*/
-    text("press enter", 320, 240); // replace this with printText
+    // replace this with printText
+    printText();
     /*--------------------------------*/
     break;
 
   case GAME_PLAYING:
     background(50, 50, 50);
+    
 
     drawHorizon();
     drawScore();
@@ -62,7 +109,7 @@ void draw() {
 
     /*---------Call functions---------------*/
 
-
+    
     checkAlienDead();/*finish this function*/
     checkShipHit();  /*finish this function*/
 
@@ -71,13 +118,13 @@ void draw() {
 
   case GAME_PAUSE:
     /*---------Print Text-------------*/
-
+     printText();
     /*--------------------------------*/
     break;
 
   case GAME_WIN:
     /*---------Print Text-------------*/
-
+     printText();
     /*--------------------------------*/
     winAnimate();
     break;
@@ -85,10 +132,11 @@ void draw() {
   case GAME_LOSE:
     loseAnimate();
     /*---------Print Text-------------*/
-
+     printText();
     /*--------------------------------*/
     break;
   }
+  
 }
 
 void drawHorizon() {
@@ -114,14 +162,34 @@ void keyPressed() {
 }
 
 /*---------Make Alien Function-------------*/
+
 void alienMaker() {
-  aList[0]= new Alien(50, 50);
+  int num=53;
+  int numInRow=12;
+  int spacingA=40;
+  int spacingB=50;
+  
+  
+   for (int i=0; i < num; ++i){
+    
+    int row = i / numInRow;
+    int col = i % numInRow;
+ 
+    int x = ox + (spacingA*col);
+    int y = oy + (spacingB*row);
+    aList[i]= new Alien(x,y);
+  }
+ 
 }
 
+  
 void drawLife() {
   fill(230, 74, 96);
   text("LIFE:", 36, 455);
   /*---------Draw Ship Life---------*/
+  ellipse(78, 459, 15, 15);
+  ellipse(103, 459, 15, 15);
+  ellipse(128, 459, 15, 15);
 }
 
 void drawBullet() {
@@ -157,11 +225,14 @@ void drawAlien() {
       alien.move();    //Move Alien
       alien.display(); //Draw Alien
       /*---------Call Check Line Hit---------*/
-
-      /*--------------------------------------*/
     }
   }
-}
+} 
+
+      /*--------------------------------------*/
+
+
+
 
 /*--------Check Line Hit---------*/
 
@@ -298,7 +369,7 @@ void reset() {
 
   /*-----------Call Make Alien Function--------*/
   alienMaker();
-
+  
   ship.posX = width/2;
   ship.posY = 460;
   ship.upGrade = false;
@@ -343,4 +414,3 @@ void cheatKeys() {
     }
   }
 }
-
