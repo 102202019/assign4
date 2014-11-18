@@ -172,8 +172,8 @@ void alienMaker() {
   
    for (int i=0; i < num; ++i){
     
-    int row = i / numInRow;
-    int col = i % numInRow;
+   int row = int((float)i / (float)numInRow);
+   int col = int((float)i % (float)numInRow);
  
     int x = ox + (spacingA*col);
     int y = oy + (spacingB*row);
